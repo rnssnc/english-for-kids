@@ -1,21 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import { store } from './app/store';
 import { Provider } from 'react-redux';
-import * as serviceWorker from './serviceWorker';
+import { BrowserRouter as Router } from 'react-router-dom';
+
+import App from './components/app/app';
+import ErrorBoundry from './components/error-boundry/error-boundry';
+import EnglishForKidsService from './services/english-for-kids-service';
+import { EnglishForKidsProvider } from './components/english-for-kids-service-context/english-for-kids-service-context';
+
+import 'normalize.css';
+import store from './store';
+
+const englishForKidsService = new EnglishForKidsService();
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <ErrorBoundry>
+      <EnglishForKidsProvider value={englishForKidsService}>
+        <Router>
+          <App />
+        </Router>
+      </EnglishForKidsProvider>
+    </ErrorBoundry>
+  </Provider>,
+  document.getElementById('root'),
 );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
