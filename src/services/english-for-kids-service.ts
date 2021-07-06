@@ -33,7 +33,7 @@ export default class EnglishForKidsService {
         resolve((await fetch(`./assets/categories/${id}.json`)).json());
       }, 700);
     });
-    return (await fetch(`./assets/categories/${id}.json`)).json();
+    // return (await fetch(`./assets/categories/${id}.json`)).json();
   }
 
   async getGameAssets() {

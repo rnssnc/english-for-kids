@@ -57,7 +57,10 @@ const initalState: TAppState = {
 const reducer = (state = initalState, action: AnyAction): TAppState => {
   switch (action.type) {
     case ACTIONS.APP_SET_MODE:
-      const unGuessCards = [...state.cards].map((card) => ((card.isGuessed = false), card));
+      const unGuessCards = [...state.cards].map((card) => {
+        card.isGuessed = false;
+        return card;
+      });
       return {
         ...state,
         gameMode: GAME_MODES.ready,
