@@ -1,0 +1,50 @@
+[
+  {
+    "word": "skirt",
+    "translation": "юбка",
+    "imageSrc": "./assets/img/skirt.jpg",
+    "audioSrc": "./assets/audio/skirt.mp3"
+  },
+  {
+    "word": "pants",
+    "translation": "брюки",
+    "imageSrc": "./assets/img/pants.jpg",
+    "audioSrc": "./assets/audio/pants.mp3"
+  },
+  {
+    "word": "blouse",
+    "translation": "блузка",
+    "imageSrc": "./assets/img/blouse.jpg",
+    "audioSrc": "./assets/audio/blouse.mp3"
+  },
+  {
+    "word": "dress",
+    "translation": "платье",
+    "imageSrc": "./assets/img/dress.jpg",
+    "audioSrc": "./assets/audio/dress.mp3"
+  },
+  {
+    "word": "boot",
+    "translation": "ботинок",
+    "imageSrc": "./assets/img/boot.jpg",
+    "audioSrc": "./assets/audio/boot.mp3"
+  },
+  {
+    "word": "shirt",
+    "translation": "рубашка",
+    "imageSrc": "./assets/img/shirt.jpg",
+    "audioSrc": "./assets/audio/shirt.mp3"
+  },
+  {
+    "word": "coat",
+    "translation": "пальто",
+    "imageSrc": "./assets/img/coat.jpg",
+    "audioSrc": "./assets/audio/coat.mp3"
+  },
+  {
+    "word": "shoe",
+    "translation": "туфли",
+    "imageSrc": "./assets/img/shoe.jpg",
+    "audioSrc": "./assets/audio/shoe.mp3"
+  }
+]

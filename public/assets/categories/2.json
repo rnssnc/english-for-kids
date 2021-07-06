@@ -1,0 +1,50 @@
+[
+  {
+    "word": "open",
+    "translation": "открывать",
+    "imageSrc": "./assets/img/open.jpg",
+    "audioSrc": "./assets/audio/open.mp3"
+  },
+  {
+    "word": "play",
+    "translation": "играть",
+    "imageSrc": "./assets/img/play.jpg",
+    "audioSrc": "./assets/audio/play.mp3"
+  },
+  {
+    "word": "point",
+    "translation": "указывать",
+    "imageSrc": "./assets/img/point.jpg",
+    "audioSrc": "./assets/audio/point.mp3"
+  },
+  {
+    "word": "ride",
+    "translation": "ездить",
+    "imageSrc": "./assets/img/ride.jpg",
+    "audioSrc": "./assets/audio/ride.mp3"
+  },
+  {
+    "word": "run",
+    "translation": "бегать",
+    "imageSrc": "./assets/img/run.jpg",
+    "audioSrc": "./assets/audio/run.mp3"
+  },
+  {
+    "word": "sing",
+    "translation": "петь",
+    "imageSrc": "./assets/img/sing.jpg",
+    "audioSrc": "./assets/audio/sing.mp3"
+  },
+  {
+    "word": "skip",
+    "translation": "пропускать, прыгать",
+    "imageSrc": "./assets/img/skip.jpg",
+    "audioSrc": "./assets/audio/skip.mp3"
+  },
+  {
+    "word": "swim",
+    "translation": "плавать",
+    "imageSrc": "./assets/img/swim.jpg",
+    "audioSrc": "./assets/audio/swim.mp3"
+  }
+]

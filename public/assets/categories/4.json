@@ -1,0 +1,50 @@
+[
+  {
+    "word": "cat",
+    "translation": "кот",
+    "imageSrc": "./assets/img/cat.jpg",
+    "audioSrc": "./assets/audio/cat.mp3"
+  },
+  {
+    "word": "chick",
+    "translation": "цыплёнок",
+    "imageSrc": "./assets/img/chick.jpg",
+    "audioSrc": "./assets/audio/chick.mp3"
+  },
+  {
+    "word": "chicken",
+    "translation": "курица",
+    "imageSrc": "./assets/img/chicken.jpg",
+    "audioSrc": "./assets/audio/chicken.mp3"
+  },
+  {
+    "word": "dog",
+    "translation": "собака",
+    "imageSrc": "./assets/img/dog.jpg",
+    "audioSrc": "./assets/audio/dog.mp3"
+  },
+  {
+    "word": "horse",
+    "translation": "лошадь",
+    "imageSrc": "./assets/img/horse.jpg",
+    "audioSrc": "./assets/audio/horse.mp3"
+  },
+  {
+    "word": "pig",
+    "translation": "свинья",
+    "imageSrc": "./assets/img/pig.jpg",
+    "audioSrc": "./assets/audio/pig.mp3"
+  },
+  {
+    "word": "rabbit",
+    "translation": "кролик",
+    "imageSrc": "./assets/img/rabbit.jpg",
+    "audioSrc": "./assets/audio/rabbit.mp3"
+  },
+  {
+    "word": "sheep",
+    "translation": "овца",
+    "imageSrc": "./assets/img/sheep.jpg",
+    "audioSrc": "./assets/audio/sheep.mp3"
+  }
+]
