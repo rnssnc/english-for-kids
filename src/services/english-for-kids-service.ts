@@ -27,7 +27,7 @@ export default class EnglishForKidsService {
     return (await fetch('./assets/categories.json')).json();
   }
 
-  async getCategoryCards(id: number) {
+  async getCategoryCards(id: number): Promise<TCard[]> {
     return new Promise((resolve, reject) => {
       setTimeout(async () => {
         resolve((await fetch(`./assets/categories/${id}.json`)).json());
