@@ -82,7 +82,6 @@ class WordCard extends React.Component<IProps, IState> {
   }
 
   flip = (e: React.MouseEvent) => {
-    e.preventDefault();
     this.setState({ isFlipped: true });
   };
 
@@ -91,6 +90,8 @@ class WordCard extends React.Component<IProps, IState> {
   };
 
   handleCardClick = () => {
+    if (this.state.isFlipped === true) return;
+
     const isAppOnPlayMode = this.props.mode === APP_MODES.play;
 
     if (isAppOnPlayMode) {
