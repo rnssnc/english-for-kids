@@ -2,7 +2,6 @@ import { TCard } from './english-for-kids-service';
 
 export type TWordStatistic = {
   card: TCard;
-  category: string;
   trainCount: number;
   correctCount: number;
   incorrectCount: number;
@@ -23,28 +22,27 @@ export default class StatisticService {
     localStorage.setItem(this.keyName, '[]');
   }
 
-  static increaseWordCorrect(card: TCard, category: string) {
-    this.increaseField(card, category, 'correctCount');
+  static increaseWordCorrect(card: TCard) {
+    this.increaseField(card, 'correctCount');
   }
 
-  static increaseWordIncorrect(card: TCard, category: string) {
-    this.increaseField(card, category, 'incorrectCount');
+  static increaseWordIncorrect(card: TCard) {
+    this.increaseField(card, 'incorrectCount');
   }
 
-  static increaseWordTrain(card: TCard, category: string) {
-    this.increaseField(card, category, 'trainCount', false);
+  static increaseWordTrain(card: TCard) {
+    this.increaseField(card, 'trainCount', false);
   }
 
   private static increaseField(
     card: TCard,
-    category: string,
     field: keyof TWordStatistic,
     recalculatePrecents = true,
   ) {
     const statistic = this.getStatistic();
 
     const index = statistic.findIndex(
-      (item) => item.card.word === card.word && item.category === category,
+      (item) => item.card.word === card.word && item.card.category === card.category,
     );
 
     if (index > -1) {
@@ -61,15 +59,14 @@ export default class StatisticService {
       return;
     }
 
-    this.pushNewItem(card, category, field);
+    this.pushNewItem(card, field);
   }
 
-  private static pushNewItem(card: TCard, category: string, field: keyof TWordStatistic) {
+  private static pushNewItem(card: TCard, field: keyof TWordStatistic) {
     const statistic = this.getStatistic();
 
     const newItem = {
       card: card,
-      category,
       trainCount: 0,
       correctCount: 0,
       incorrectCount: 0,

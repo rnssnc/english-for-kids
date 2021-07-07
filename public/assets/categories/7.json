@@ -3,48 +3,56 @@
     "word": "tulip",
     "translation": "тюльпан",
     "imageSrc": "./assets/img/tulip.svg",
-    "audioSrc": "./assets/audio/tulip.mp3"
+    "audioSrc": "./assets/audio/tulip.mp3",
+    "category": "Spring"
   },
   {
     "word": "raindrop",
     "translation": "капля дождя",
     "imageSrc": "./assets/img/water-drop.png",
-    "audioSrc": "./assets/audio/raindrop.mp3"
+    "audioSrc": "./assets/audio/raindrop.mp3",
+    "category": "Spring"
   },
   {
     "word": "rainbow",
     "translation": "радуга",
     "imageSrc": "./assets/img/rainbow.svg",
-    "audioSrc": "./assets/audio/rainbow.mp3"
+    "audioSrc": "./assets/audio/rainbow.mp3",
+    "category": "Spring"
   },
   {
     "word": "umbrella",
     "translation": "зонт",
     "imageSrc": "./assets/img/umbrella.svg",
-    "audioSrc": "./assets/audio/umbrella.mp3"
+    "audioSrc": "./assets/audio/umbrella.mp3",
+    "category": "Spring"
   },
   {
     "word": "clouds",
     "translation": "облака",
     "imageSrc": "./assets/img/clouds.svg",
-    "audioSrc": "./assets/audio/clouds.mp3"
+    "audioSrc": "./assets/audio/clouds.mp3",
+    "category": "Spring"
   },
   {
     "word": "grass",
     "translation": "трава",
     "imageSrc": "./assets/img/grass.svg",
-    "audioSrc": "./assets/audio/grass.mp3"
+    "audioSrc": "./assets/audio/grass.mp3",
+    "category": "Spring"
   },
   {
     "word": "splash",
     "translation": "всплеск",
     "imageSrc": "./assets/img/splash.png",
-    "audioSrc": "./assets/audio/splash.mp3"
+    "audioSrc": "./assets/audio/splash.mp3",
+    "category": "Spring"
   },
   {
     "word": "bee",
     "translation": "пчела",
     "imageSrc": "./assets/img/bee.svg",
-    "audioSrc": "./assets/audio/bee.mp3"
+    "audioSrc": "./assets/audio/bee.mp3",
+    "category": "Spring"
   }
 ]

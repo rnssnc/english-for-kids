@@ -18,6 +18,7 @@ interface IProps {
   gameAssets: TGameAssets;
   gameMode: GAME_MODES;
   selectedCategory: TCategory | null;
+  categories: TCategory[];
 }
 
 interface IState {
@@ -99,8 +100,7 @@ class WordCard extends React.Component<IProps, IState> {
       return;
     }
 
-    if (this.props.selectedCategory)
-      StatisticService.increaseWordTrain(this.props.card, this.props.selectedCategory.title);
+    StatisticService.increaseWordTrain(this.props.card);
 
     this.playAudio();
   };
@@ -111,13 +111,14 @@ class WordCard extends React.Component<IProps, IState> {
     if (isCorrect) {
       this.audio = new Audio(this.props.gameAssets.correctSoundSrc);
 
-      if (this.props.selectedCategory && this.props.gameMode === GAME_MODES.game)
-        StatisticService.increaseWordCorrect(this.props.card, this.props.selectedCategory.title);
+      if (this.props.gameMode === GAME_MODES.game) {
+        StatisticService.increaseWordCorrect(this.props.card);
+      }
     } else {
       this.audio = new Audio(this.props.gameAssets.incorrecSoundtSrc);
 
-      if (this.props.selectedCategory && this.props.gameMode === GAME_MODES.game)
-        StatisticService.increaseWordIncorrect(this.props.card, this.props.selectedCategory.title);
+      if (this.props.gameMode === GAME_MODES.game)
+        StatisticService.increaseWordIncorrect(this.props.card);
     }
 
     this.audio.play();
@@ -143,8 +144,9 @@ const mapStateToProps = ({
   gameAssets,
   gameMode,
   selectedCategory,
+  categories,
 }: TAppState) => {
-  return { mode, currentCard, gameAssets, gameMode, selectedCategory };
+  return { mode, currentCard, gameAssets, gameMode, selectedCategory, categories };
 };
 
 const mapDispatchToProps = {

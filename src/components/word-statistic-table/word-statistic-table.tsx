@@ -95,7 +95,7 @@ class WordStatisticTable extends React.Component<IProps, IState> {
 
     const items = sortedStatistic.map((element) => (
       <WordStatisticTableItem
-        key={element.category + element.card.translation}
+        key={element.card.category + element.card.translation}
         statistic={element}
       />
     ));
@@ -128,7 +128,7 @@ const WordStatisticTableItem = ({ statistic }: { statistic: TWordStatistic }) =>
   return (
     <tr className="statistic-table__row">
       <th className="statistic-table__col">{statistic.card.word}</th>
-      <th className="statistic-table__col">{statistic.category}</th>
+      <th className="statistic-table__col">{statistic.card.category}</th>
       <th className="statistic-table__col">{statistic.card.translation}</th>
       <th className="statistic-table__col">{statistic.trainCount}</th>
       <th className="statistic-table__col">{statistic.correctCount}</th>

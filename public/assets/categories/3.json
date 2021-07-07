@@ -3,48 +3,56 @@
     "word": "bird",
     "translation": "птица",
     "imageSrc": "./assets/img/bird.jpg",
-    "audioSrc": "./assets/audio/bird.mp3"
+    "audioSrc": "./assets/audio/bird.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "fish",
     "translation": "рыба",
     "imageSrc": "./assets/img/fish1.jpg",
-    "audioSrc": "./assets/audio/fish.mp3"
+    "audioSrc": "./assets/audio/fish.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "frog",
     "translation": "жаба",
     "imageSrc": "./assets/img/frog.jpg",
-    "audioSrc": "./assets/audio/frog.mp3"
+    "audioSrc": "./assets/audio/frog.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "giraffe",
     "translation": "жирафа",
     "imageSrc": "./assets/img/giraffe.jpg",
-    "audioSrc": "./assets/audio/giraffe.mp3"
+    "audioSrc": "./assets/audio/giraffe.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "lion",
     "translation": "лев",
     "imageSrc": "./assets/img/lion.jpg",
-    "audioSrc": "./assets/audio/lion.mp3"
+    "audioSrc": "./assets/audio/lion.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "mouse",
     "translation": "мышь",
     "imageSrc": "./assets/img/mouse.jpg",
-    "audioSrc": "./assets/audio/mouse.mp3"
+    "audioSrc": "./assets/audio/mouse.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "turtle",
     "translation": "черепаха",
     "imageSrc": "./assets/img/turtle.jpg",
-    "audioSrc": "./assets/audio/turtle.mp3"
+    "audioSrc": "./assets/audio/turtle.mp3",
+    "category": "Animal (set A)"
   },
   {
     "word": "dolphin",
     "translation": "дельфин",
     "imageSrc": "./assets/img/dolphin.jpg",
-    "audioSrc": "./assets/audio/dolphin.mp3"
+    "audioSrc": "./assets/audio/dolphin.mp3",
+    "category": "Animal (set A)"
   }
 ]

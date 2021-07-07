@@ -11,6 +11,7 @@ export type TCard = {
   imageSrc: string;
   audioSrc: string;
   isGuessed: boolean;
+  category: string;
 };
 
 export type TGameAssets = {

@@ -3,48 +3,56 @@
     "word": "pizza",
     "translation": "пицца",
     "imageSrc": "./assets/img/pizza.png",
-    "audioSrc": "./assets/audio/pizza.mp3"
+    "audioSrc": "./assets/audio/pizza.mp3",
+    "category": "Food"
   },
   {
     "word": "honey",
     "translation": "мед",
     "imageSrc": "./assets/img/honey.png",
-    "audioSrc": "./assets/audio/honey.mp3"
+    "audioSrc": "./assets/audio/honey.mp3",
+    "category": "Food"
   },
   {
     "word": "egg",
     "translation": "яйцо",
     "imageSrc": "./assets/img/egg.png",
-    "audioSrc": "./assets/audio/egg.mp3"
+    "audioSrc": "./assets/audio/egg.mp3",
+    "category": "Food"
   },
   {
     "word": "butter",
     "translation": "масло",
     "imageSrc": "./assets/img/spread.png",
-    "audioSrc": "./assets/audio/butter.mp3"
+    "audioSrc": "./assets/audio/butter.mp3",
+    "category": "Food"
   },
   {
     "word": "coffee",
     "translation": "кофе",
     "imageSrc": "./assets/img/coffee-cup.png",
-    "audioSrc": "./assets/audio/coffee.mp3"
+    "audioSrc": "./assets/audio/coffee.mp3",
+    "category": "Food"
   },
   {
     "word": "cheese",
     "translation": "сыр",
     "imageSrc": "./assets/img/cheese.svg",
-    "audioSrc": "./assets/audio/cheese.mp3"
+    "audioSrc": "./assets/audio/cheese.mp3",
+    "category": "Food"
   },
   {
     "word": "bread",
     "translation": "хлеб",
     "imageSrc": "./assets/img/bakery.png",
-    "audioSrc": "./assets/audio/bread.mp3"
+    "audioSrc": "./assets/audio/bread.mp3",
+    "category": "Food"
   },
   {
     "word": "lemon",
     "translation": "лемон",
     "imageSrc": "./assets/img/lemon.png",
-    "audioSrc": "./assets/audio/lemon.mp3"
+    "audioSrc": "./assets/audio/lemon.mp3",
+    "category": "Food"
   }
 ]
