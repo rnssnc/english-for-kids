@@ -14,6 +14,7 @@ import withEnglishForKidsService from '../hoc/with-english-for-kids-service';
 import AppNavigation from '../app-navigation/app-navigation';
 import LavaLamp from '../lavalamp/lavalamp';
 import { APP_MODES, TAppState } from '../../redux/reducers/reducer';
+import AppFooter from '../app-footer/app-footer';
 
 interface IProps {
   fetchCategories: () => void;
@@ -41,6 +42,7 @@ class App extends React.Component<IProps, unknown> {
           <Route path="/statistic" component={StatisticPage} />
           <Route path="/game" component={GamePage} />
         </Switch>
+        <AppFooter />
         <AppNavigation />
       </main>
     );
