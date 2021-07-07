@@ -78,14 +78,14 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
       return { ...state, isAppNavShown: action.payload };
     case ACTIONS.GAME_SET_CATEGORY:
       return { ...state, isAppNavShown: false, selectedCategory: action.payload };
-    case ACTIONS.SET_GAME_CARDS:
+    case ACTIONS.SET_CUSTOM_GAME_CARDS:
       return {
         ...state,
         selectedCategory: {
           id: -1,
           cardCount: action.payload.length,
           imgSrc: '',
-          title: 'Costum cards',
+          title: 'Custom cards',
         },
         cards: action.payload,
       };
@@ -97,9 +97,9 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
     case ACTIONS.FETCH_GAME_CARDS_FAILURE:
       return { ...state, gameMode: GAME_MODES.none, cards: [], loading: false, error: true };
     case ACTIONS.GAME_SET_MODE:
-      if (action.payload === GAME_MODES.none)
-        return { ...state, attempts: [], gameMode: action.payload };
-      return { ...state, gameMode: action.payload };
+      // if (action.payload === GAME_MODES.none)
+      //   return { ...state, attempts: [], gameMode: action.payload };
+      return { ...state, attempts: [], gameMode: action.payload };
     case ACTIONS.GAME_SET_CURRENT_CARD:
       return { ...state, currentCard: action.payload };
     case ACTIONS.GAME_ADD_ATTEMPT: {

@@ -24,7 +24,7 @@ export enum ACTIONS {
   FETCH_GAME_CARDS_REQUESTED = 'FETCH_GAME_CARDS_REQUESTED',
   FETCH_GAME_CARDS_SUCCESS = 'FETCH_GAME_CARDS_SUCCESS',
   FETCH_GAME_CARDS_FAILURE = 'FETCH_GAME_CARDS_FAILURE',
-  SET_GAME_CARDS = 'SET_GAME_CARDS',
+  SET_CUSTOM_GAME_CARDS = 'SET_CUSTOM_GAME_CARDS',
 
   FETCH_GAME_ASSETS_REQUESTED = 'FETCH_GAME_ASSETS_REQUESTED',
   FETCH_GAME_ASSETS_SUCCESS = 'FETCH_GAME_ASSETS_SUCCESS',
@@ -74,7 +74,7 @@ const setAppNavShown = (isShown: boolean) => {
   };
 };
 
-const selectCategory = (category: TCategory) => {
+const selectCategory = (category: TCategory | null) => {
   return {
     type: ACTIONS.GAME_SET_CATEGORY,
     payload: category,
@@ -95,7 +95,7 @@ const gameCardsFailure = (err: ErrorEvent) => {
 
 const setGameCards = (cards: TCard[]) => {
   return {
-    type: ACTIONS.SET_GAME_CARDS,
+    type: ACTIONS.SET_CUSTOM_GAME_CARDS,
     payload: cards,
   };
 };
