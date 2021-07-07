@@ -27,16 +27,16 @@ class StatisticPage extends React.Component<IProps, IState> {
   }
 
   render() {
-    if (this.state.redirect) return <Redirect to="/game" push />;
+    const { statistic } = this.state;
 
-    return (
-      <section className="section">
-        <div className="statistic-info-controlls-wrapper">
-          <h2 className="typography-h2">Statistic</h2>
+    const content =
+      statistic.length > 0 ? (
+        <React.Fragment>
           <div className="statistic-actions-wrapper">
             <button className="button button-repeat-words" onClick={this.setWordsToRepeat}>
               Repeat hard words
             </button>
+
             <button
               className="button button-statistic-reset"
               onClick={() => StatisticService.clearStatistic.call(StatisticService)}
@@ -44,8 +44,21 @@ class StatisticPage extends React.Component<IProps, IState> {
               Reset
             </button>
           </div>
+
+          <WordStatisticTable statistic={statistic} />
+        </React.Fragment>
+      ) : (
+        <span className="typography-h2">Train words or play a game first!</span>
+      );
+
+    if (this.state.redirect) return <Redirect to="/game" push />;
+
+    return (
+      <section className="section">
+        <div className="statistic-info-controlls-wrapper">
+          <h2 className="typography-h2">Statistic</h2>
+          {content}
         </div>
-        <WordStatisticTable statistic={this.state.statistic} />
       </section>
     );
   }
