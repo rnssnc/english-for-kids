@@ -39,7 +39,10 @@ class StatisticPage extends React.Component<IProps, IState> {
 
             <button
               className="button button-statistic-reset"
-              onClick={() => StatisticService.clearStatistic.call(StatisticService)}
+              onClick={() => {
+                StatisticService.clearStatistic.call(StatisticService);
+                this.setState({ statistic: [] });
+              }}
             >
               Reset
             </button>
