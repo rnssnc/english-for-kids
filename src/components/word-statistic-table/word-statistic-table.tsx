@@ -125,10 +125,6 @@ class WordStatisticTable extends React.Component<IProps, IState> {
 }
 
 const WordStatisticTableItem = ({ statistic }: { statistic: TWordStatistic }) => {
-  const precent = Math.round(
-    (statistic.correctCount / (statistic.incorrectCount + statistic.correctCount)) * 100,
-  );
-
   return (
     <tr className="statistic-table__row">
       <th className="statistic-table__col">{statistic.card.word}</th>
@@ -137,7 +133,7 @@ const WordStatisticTableItem = ({ statistic }: { statistic: TWordStatistic }) =>
       <th className="statistic-table__col">{statistic.trainCount}</th>
       <th className="statistic-table__col">{statistic.correctCount}</th>
       <th className="statistic-table__col">{statistic.incorrectCount}</th>
-      <th className="statistic-table__col">{isNaN(precent) ? '-' : `${precent}%`}</th>
+      <th className="statistic-table__col">{statistic.precent}</th>
     </tr>
   );
 };
