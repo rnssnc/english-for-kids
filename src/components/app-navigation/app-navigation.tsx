@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { TAppState } from '../../redux/reducers/reducer';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
 import { setAppNavShown, selectCategoryAndLoadCards } from '../../redux/actions/actions';
@@ -16,16 +16,21 @@ interface IProps {
   isAppNavShown: boolean;
   setAppNavShown: typeof setAppNavShown;
   selectCategoryAndLoadCards: (category: TCategory) => void;
+  selectedCategory: TCategory | null;
 }
 
 class AppNavigation extends React.Component<IProps, unknown> {
   render() {
-    const { categories, isAppNavShown } = this.props;
+    const { categories, isAppNavShown, selectedCategory } = this.props;
 
     const items =
       categories.length > 0
         ? categories.map((category) =>
-            AppNavigationItem({ category, onClick: this.handleItemClick }),
+            AppNavigationItem({
+              category,
+              onClick: this.handleItemClick,
+              selectedCategory: selectedCategory,
+            }),
           )
         : null;
 
@@ -37,19 +42,26 @@ class AppNavigation extends React.Component<IProps, unknown> {
         <nav className={`app-navigation ${isAppNavShown ? 'shown' : ''}`}>
           <ul className="app-navigation-list">
             <li className="app-navigation-list__item">
-              <Link className="app-navigation-list__link" to="/" onClick={this.handleWrapperClick}>
+              <NavLink
+                className="app-navigation-list__link"
+                activeClassName="navigation-link--active"
+                to="/"
+                exact
+                onClick={this.handleWrapperClick}
+              >
                 Home
-              </Link>
+              </NavLink>
             </li>
             {items}
             <li className="app-navigation-list__item">
-              <Link
+              <NavLink
                 className="app-navigation-list__link"
+                activeClassName="navigation-link--active"
                 to="/statistic"
                 onClick={this.handleWrapperClick}
               >
                 Statistic
-              </Link>
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -68,21 +80,27 @@ class AppNavigation extends React.Component<IProps, unknown> {
 
 interface INavigationItemProps {
   category: TCategory;
+  selectedCategory: TCategory | null;
   onClick: (category: TCategory) => void;
 }
 
-const AppNavigationItem = ({ category, onClick }: INavigationItemProps) => {
+const AppNavigationItem = ({ category, onClick, selectedCategory }: INavigationItemProps) => {
   return (
     <li key={category.id} className="app-navigation-list__item" onClick={() => onClick(category)}>
-      <Link className="app-navigation-list__link" to="/game">
+      <NavLink
+        className={`app-navigation-list__link ${
+          selectedCategory === category ? 'navigation-link--active' : ''
+        }`}
+        to="/game"
+      >
         {category.title}
-      </Link>
+      </NavLink>
     </li>
   );
 };
 
-const mapStateToProps = ({ categories, isAppNavShown }: TAppState) => {
-  return { categories, isAppNavShown };
+const mapStateToProps = ({ categories, isAppNavShown, selectedCategory }: TAppState) => {
+  return { categories, isAppNavShown, selectedCategory };
 };
 
 const mapDispatchToProps = (

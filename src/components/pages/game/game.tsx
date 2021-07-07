@@ -1,7 +1,12 @@
 import { bindActionCreators } from '@reduxjs/toolkit';
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchCards, setCardsToPlay, setGameMode } from '../../../redux/actions/actions';
+import {
+  fetchCards,
+  setCardsToPlay,
+  setGameMode,
+  selectCategory,
+} from '../../../redux/actions/actions';
 import { APP_MODES, GAME_MODES, TAppState } from '../../../redux/reducers/reducer';
 import EnglishForKidsService, {
   TGameAssets,
@@ -35,6 +40,7 @@ interface IProps {
   attempts: boolean[];
   cardsToPlay: TCard[];
   setGameMode: typeof setGameMode;
+  selectCategory: typeof selectCategory;
 }
 
 class GamePage extends React.Component<IProps> {
@@ -66,6 +72,7 @@ class GamePage extends React.Component<IProps> {
   }
 
   componentWillUnmount() {
+    this.props.selectCategory(null);
     this.props.setGameMode(GAME_MODES.ready);
   }
 
@@ -160,7 +167,7 @@ const mapDispatchToProps = (
   { englishForKidsService }: { englishForKidsService: EnglishForKidsService },
 ) => {
   return bindActionCreators(
-    { fetchCards: fetchCards(englishForKidsService), setCardsToPlay, setGameMode },
+    { fetchCards: fetchCards(englishForKidsService), setCardsToPlay, setGameMode, selectCategory },
     dispatch,
   );
 };
