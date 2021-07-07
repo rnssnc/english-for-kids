@@ -51,11 +51,11 @@ export default class StatisticService {
       statistic[index][field]++;
 
       if (recalculatePrecents)
-        statistic[index].precent = `${
+        statistic[index].precent = `${Math.round(
           (statistic[index].correctCount /
             (statistic[index].incorrectCount + statistic[index].correctCount)) *
-          100
-        }%`;
+            100,
+        )}%`;
 
       localStorage.setItem(this.keyName, JSON.stringify(statistic));
       return;
