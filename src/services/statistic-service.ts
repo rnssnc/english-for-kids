@@ -61,20 +61,24 @@ export default class StatisticService {
       return;
     }
 
-    this.pushNewItem(card, category);
+    this.pushNewItem(card, category, field);
   }
 
-  private static pushNewItem(card: TCard, category: string) {
+  private static pushNewItem(card: TCard, category: string, field: keyof TWordStatistic) {
     const statistic = this.getStatistic();
 
-    statistic.push({
+    const newItem = {
       card: card,
       category,
       trainCount: 0,
       correctCount: 0,
       incorrectCount: 0,
       precent: '-',
-    });
+    };
+
+    newItem[field]++;
+
+    statistic.push(newItem);
 
     localStorage.setItem(this.keyName, JSON.stringify(statistic));
   }
