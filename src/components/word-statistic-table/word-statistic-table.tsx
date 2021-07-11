@@ -46,7 +46,7 @@ class WordStatisticTable extends React.Component<IProps, IState> {
       },
       {
         title: 'category',
-        key: 'category',
+        key: 'card.category',
       },
       {
         title: 'translation',
