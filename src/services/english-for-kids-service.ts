@@ -132,8 +132,11 @@ export default class EnglishForKidsService {
 
       checkAuthReponse(response);
 
-      if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
+
+      const data: TCategory = await response.json();
+
+      if (response.ok) resolve({ ...data, cardCount: 0 });
     });
   }
 
@@ -239,8 +242,13 @@ export default class EnglishForKidsService {
 
       checkAuthReponse(response);
 
-      if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
+
+      const data: TCategory = await response.json();
+
+      const itemsCount = await this.getCategoryLength(data.title);
+
+      if (response.ok) resolve({ ...data, cardCount: itemsCount });
     });
   }
 
