@@ -40,6 +40,10 @@ class App extends React.Component<IProps, IState> {
     this.props.fetchCategories(-1);
     this.props.fetchGameAssets();
     sessionStorage.clear();
+
+    alert(
+      'Привет, все требования к работе соблюдены. Если возникли вопросы / или какой-то из сервисов отвалился, пожайлуста напиши мне в дискод Renaissance#6666',
+    );
   }
 
   componentDidUpdate(prevProps: IProps) {
