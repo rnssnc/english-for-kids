@@ -121,6 +121,14 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
     case ACTIONS.APP_SET_NAV_SHOW:
       return { ...state, isAppNavShown: action.payload };
     case ACTIONS.GAME_SET_CATEGORY:
+      if (action.payload === null)
+        return {
+          ...state,
+          isAppNavShown: false,
+          attempts: [],
+          cards: [],
+          selectedCategory: action.payload,
+        };
       return { ...state, isAppNavShown: false, attempts: [], selectedCategory: action.payload };
     case ACTIONS.SET_CUSTOM_GAME_CARDS:
       return {

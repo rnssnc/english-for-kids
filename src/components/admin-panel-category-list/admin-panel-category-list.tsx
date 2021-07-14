@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import {
-  selectCategoryAndLoadCards,
+  selectCategory,
   fetchCategories,
   addNewCategories,
   updateCategory,
@@ -20,7 +20,7 @@ import './admin-panel-category-list.sass';
 
 interface IProps {
   categories: TCategory[];
-  selectCategoryAndLoadCards: (category: TCategory, page: number) => void;
+  selectCategory: (category: TCategory) => void;
   englishForKidsService: EnglishForKidsService;
   addNewCategories: typeof addNewCategories;
   updateCategory: typeof updateCategory;
@@ -30,6 +30,7 @@ interface IState {
   categories: TCategory[];
   redirect: string;
   page: number;
+  isHasMoreData: boolean;
 }
 
 class AdminPanelCategoryList extends React.Component<IProps, IState> {
@@ -37,6 +38,7 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
     categories: [],
     redirect: '',
     page: 0,
+    isHasMoreData: true,
   };
 
   componentDidUpdate(prevProps: IProps) {
@@ -47,12 +49,6 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
   render() {
     if (this.state.redirect)
       return <Redirect to={`/${this.state.redirect.toLowerCase().replaceAll(' ', '-')}/words`} />;
-    // if (this.props.categories.length === 0)
-    //   return (
-    //     <h2>
-    //       Seems like something went wrong with server. Please contact me on discord Renaissance#6666
-    //     </h2>
-    //   );
 
     const items = this.state.categories.map((category, index) => (
       <AdminPanelCategoryListItem
@@ -69,7 +65,7 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
       <div className="admin-panel-categories-list__wrapper">
         <ul className="admin-panel-categories-list">
           {items}
-          <InView onChange={(isInView) => (isInView ? this.loadNextPage() : null)}>
+          <InView threshold={1} onChange={(isInView) => (isInView ? this.loadNextPage() : null)}>
             <li className="categories-list__item categories-list__item-add">
               <div className="admin-panel-category-card categories-list__add-category">
                 <span className="typography-h4">Add new category</span>
@@ -86,6 +82,20 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
       </div>
     );
   }
+
+  loadNextPage = () => {
+    if (this.state.isHasMoreData)
+      this.props.englishForKidsService.getCategories(this.state.page + 1).then((cards) => {
+        this.props.addNewCategories(cards);
+        const isMoreData = cards.length > 0;
+
+        this.setState((state) => ({
+          page: state.page + 1,
+          isHasMoreData: isMoreData,
+        }));
+      });
+  };
+
   onDelele = (_id: number) => {
     if (_id < 0) {
       this.setState(({ categories }) => {
@@ -171,19 +181,8 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
   };
 
   onAddWords = (category: TCategory) => {
-    this.props.selectCategoryAndLoadCards(category, 0);
+    this.props.selectCategory(category);
     this.setState({ redirect: category.title });
-  };
-
-  loadNextPage = () => {
-    this.props.englishForKidsService
-      .getCategories(this.state.page + 1)
-      .then((cards) => this.props.addNewCategories(cards))
-      .then(() =>
-        this.setState((state) => ({
-          page: state.page + 1,
-        })),
-      );
   };
 }
 
@@ -206,6 +205,7 @@ const AdminPanelCategoryListItem = (props: ICategoryItemProps) => (
     />
   </li>
 );
+
 const mapStateToProps = ({ categories }: TAppState) => {
   return { categories };
 };
@@ -216,7 +216,7 @@ const mapDispatchToProps = (
 ) => {
   return bindActionCreators(
     {
-      selectCategoryAndLoadCards: selectCategoryAndLoadCards(englishForKidsService),
+      selectCategory,
       fetchCategories,
       updateCategory,
       addNewCategories,

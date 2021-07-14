@@ -48,18 +48,16 @@ class AdminPanelWordCard extends React.Component<IProps, IState> {
       this.setState({ imgSrc: this.props.word.imgSrc });
     }
 
-    if (
-      this.state.wordValue.length !== prevState.wordValue.length &&
-      this.state.wordValue.length === 0
-    ) {
-      this.setState({ errorMessage: 'Word can not be empty!' });
+    if (this.state.wordValue.length !== prevState.wordValue.length) {
+      if (this.state.wordValue.length === 0)
+        this.setState({ errorMessage: 'Word can not be empty!' });
+      else this.setState({ errorMessage: '' });
     }
 
-    if (
-      this.state.translationValue.length !== prevState.translationValue.length &&
-      this.state.translationValue.length === 0
-    ) {
-      this.setState({ errorMessage: 'Translation can not be empty!' });
+    if (this.state.translationValue.length !== prevState.translationValue.length) {
+      if (this.state.translationValue.length === 0)
+        this.setState({ errorMessage: 'Translation can not be empty!' });
+      else this.setState({ errorMessage: '' });
     }
   };
 

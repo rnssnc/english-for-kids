@@ -27,12 +27,14 @@ interface IProps {
 interface IState {
   words: TCard[];
   page: number;
+  isHasMoreData: boolean;
 }
 
 class AdminPanelWordList extends React.Component<IProps, IState> {
   state: IState = {
     words: [],
     page: 0,
+    isHasMoreData: true,
   };
 
   componentDidUpdate(prevProps: IProps) {
@@ -58,7 +60,11 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
       <div className="admin-panel-words-list__wrapper">
         <ul className="admin-panel-words-list">
           {items}
-          <InView onChange={(isInView) => (isInView ? this.loadNextPage() : null)}>
+          <InView
+            // threshold={}
+            delay={300}
+            onChange={(isInView) => (isInView ? this.loadNextPage() : null)}
+          >
             <li className="words-list__item words-list__item-add">
               <div className="admin-panel-word-card words-list__add-word">
                 <span className="typography-h4">Add new word</span>
@@ -74,15 +80,18 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
   }
 
   loadNextPage = () => {
-    if (this.state.page <= Math.round(this.props.selectedCategory.cardCount / 3))
-      this.props.englishForKidsService
-        .getCategoryCards(this.props.selectedCategory.title, this.state.page)
-        .then((cards) => this.props.addNewCards(cards))
-        .then(() =>
-          this.setState((state) => ({
-            page: state.page + 1,
-          })),
-        );
+    this.props.englishForKidsService
+      .getCategoryCards(this.props.selectedCategory.title, this.state.page)
+      .then((cards) => {
+        this.props.addNewCards(cards);
+
+        const isMoreData = cards.length > 0;
+
+        this.setState((state) => ({
+          page: state.page + 1,
+          isHasMoreData: isMoreData,
+        }));
+      });
   };
 
   onDelele = (category: string, _id: number) => {
