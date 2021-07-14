@@ -28,14 +28,14 @@ interface IProps {
 
 interface IState {
   categories: TCategory[];
-  redirect: boolean;
+  redirect: string;
   page: number;
 }
 
 class AdminPanelCategoryList extends React.Component<IProps, IState> {
   state: IState = {
     categories: [],
-    redirect: false,
+    redirect: '',
     page: 0,
   };
 
@@ -45,13 +45,14 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
     }
   }
   render() {
-    if (this.state.redirect) return <Redirect to="/words" />;
-    if (this.props.categories.length === 0)
-      return (
-        <h2>
-          Seems like something went wrong with server. Please contact me on discord Renaissance#6666
-        </h2>
-      );
+    if (this.state.redirect)
+      return <Redirect to={`/${this.state.redirect.toLowerCase().replaceAll(' ', '-')}/words`} />;
+    // if (this.props.categories.length === 0)
+    //   return (
+    //     <h2>
+    //       Seems like something went wrong with server. Please contact me on discord Renaissance#6666
+    //     </h2>
+    //   );
 
     const items = this.state.categories.map((category, index) => (
       <AdminPanelCategoryListItem
@@ -170,8 +171,8 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
   };
 
   onAddWords = (category: TCategory) => {
-    this.props.selectCategoryAndLoadCards(category, 1);
-    this.setState({ redirect: true });
+    this.props.selectCategoryAndLoadCards(category, 0);
+    this.setState({ redirect: category.title });
   };
 
   loadNextPage = () => {

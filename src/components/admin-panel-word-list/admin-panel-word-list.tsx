@@ -156,7 +156,6 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
     this.setState(({ words }) => {
       const newWords = words.map((item) => {
         if (item._id === oldId) {
-          console.log(oldId);
           item._id = newWord._id;
           item.word = newWord.word;
           item.imgSrc = newWord.imgSrc;

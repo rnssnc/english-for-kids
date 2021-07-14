@@ -72,7 +72,7 @@ class App extends React.Component<IProps, IState> {
           <Route path="/" component={HomePage} exact />
           <Route path="/statistic" component={StatisticPage} />
           <Route path="/game" component={GamePage} />
-          <Route path="/words" component={WordsPage} />
+          <Route path="/:categories/words" component={WordsPage} />
           <Route path="/categories" component={CategoriesPage} />
         </Switch>
         <AppFooter />
