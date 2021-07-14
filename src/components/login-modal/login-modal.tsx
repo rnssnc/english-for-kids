@@ -32,7 +32,6 @@ class LoginModal extends React.Component<IProps, IState> {
     const { login, password } = this.state;
 
     const { isAppLoginModalShown } = this.props;
-    console.log(this.props.error);
     return (
       <div
         className={`login-modal__wrapper ${isAppLoginModalShown ? 'modal--shown' : ''}`}

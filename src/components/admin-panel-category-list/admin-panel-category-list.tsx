@@ -138,7 +138,6 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
         })
         .then((newCategory) => this.props.addNewCategories([newCategory]))
         .catch((err) => {
-          console.log(err);
           if (err.code === 11000) message = 'This name is already taken';
           else message = err.message;
         });
