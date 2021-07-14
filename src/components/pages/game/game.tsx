@@ -31,7 +31,7 @@ interface IProps {
   selectedCategory: TCategory | null;
   cards: TCard[];
   loading: boolean;
-  fetchCards: (id: number) => void;
+  fetchCards: (title: string, page: number) => void;
   mode: APP_MODES;
   gameMode: GAME_MODES;
   setCardsToPlay: typeof setCardsToPlay;
@@ -51,13 +51,13 @@ class GamePage extends React.Component<IProps> {
   // componentDidMount() {
   //   const { fetchCards, selectedCategory } = this.props;
 
-  //   if (selectedCategory) fetchCards(selectedCategory.id);
+  //   if (selectedCategory) fetchCards(selectedCategory._id);
   // }
 
   componentDidUpdate(prevProps: IProps) {
     const { selectedCategory, currentCard } = this.props;
-    if (selectedCategory?.id !== prevProps.selectedCategory?.id) {
-      if (selectedCategory) this.props.fetchCards(selectedCategory.id);
+    if (selectedCategory?._id !== prevProps.selectedCategory?._id) {
+      if (selectedCategory) this.props.fetchCards(selectedCategory.title, -1);
     }
 
     if (currentCard?.word !== prevProps.currentCard?.word) {
@@ -131,7 +131,6 @@ class GamePage extends React.Component<IProps> {
     const { audioSrc } = this.props.currentCard;
 
     if (this.audio) this.audio.pause();
-
     this.audio = new Audio(audioSrc);
 
     this.audio.play();

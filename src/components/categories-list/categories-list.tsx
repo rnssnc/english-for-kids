@@ -14,7 +14,7 @@ import './categories-list.sass';
 
 interface IProps {
   categories: TCategory[];
-  selectCategoryAndLoadCards: (category: TCategory) => void;
+  selectCategoryAndLoadCards: (category: TCategory, page: number) => void;
 }
 
 const CategoryList = (props: IProps) => {
@@ -22,9 +22,9 @@ const CategoryList = (props: IProps) => {
 
   const items = categories.map((category) => (
     <CategoryListItem
-      key={category.id}
+      key={category._id}
       category={category}
-      onClick={(category) => selectCategoryAndLoadCards(category)}
+      onClick={(category) => selectCategoryAndLoadCards(category, -1)}
     />
   ));
 

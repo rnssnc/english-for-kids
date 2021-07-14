@@ -9,6 +9,12 @@ import { APP_MODES, GAME_MODES } from '../reducers/reducer';
 export enum ACTIONS {
   APP_SET_MODE = 'APP_MODE_SWITCH',
   APP_SET_NAV_SHOW = 'APP_SET_NAV_SHOW',
+  APP_SET_LOGIN_MODAL_SHOW = 'APP_SET_LOGIN_MODAL_SHOW',
+
+  FETCH_LOGIN_REQUESTED = 'FETCH_LOGIN_REQUESTED',
+  FETCH_LOGIN_SUCCESS = 'FETCH_LOGIN_SUCCESS',
+  FETCH_LOGIN_FAILURE = 'FETCH_LOGIN_FAILURE',
+  APP_LOGOUT = 'APP_LOGOUT',
 
   GAME_SET_CATEGORY = 'GAME_SET_CATEGORY',
   GAME_SET_MODE = 'GAME_SET_MODE',
@@ -21,6 +27,11 @@ export enum ACTIONS {
   FETCH_CATEGORIES_REQUESTED = 'FETCH_CATEGORIES_REQUESTED',
   FETCH_CATEGORIES_SUCCESS = 'FETCH_CATEGORIES_SUCCESS',
   FETCH_CATEGORIES_FAILURE = 'FETCH_CATEGORIES_FAILURE',
+
+  ADD_NEW_CATEGORIES = 'ADD_NEW_CATEGORIES',
+  ADD_NEW_CARDS = 'ADD_NEW_CARDS',
+  UPDATE_CATEGORY = 'UPDATE_CATEGORY',
+  UPDATE_CARD = 'UPDATE_CARD',
 
   FETCH_GAME_CARDS_REQUESTED = 'FETCH_GAME_CARDS_REQUESTED',
   FETCH_GAME_CARDS_SUCCESS = 'FETCH_GAME_CARDS_SUCCESS',
@@ -45,6 +56,34 @@ const categoriesRequested = () => {
   };
 };
 
+const addNewCategories = (categories: TCategory[]) => {
+  return {
+    type: ACTIONS.ADD_NEW_CATEGORIES,
+    payload: categories,
+  };
+};
+
+const addNewCards = (cards: TCard[]) => {
+  return {
+    type: ACTIONS.ADD_NEW_CARDS,
+    payload: cards,
+  };
+};
+
+const updateCategory = (category: TCategory) => {
+  return {
+    type: ACTIONS.UPDATE_CATEGORY,
+    payload: category,
+  };
+};
+
+const updateCard = (card: TCard) => {
+  return {
+    type: ACTIONS.UPDATE_CARD,
+    payload: card,
+  };
+};
+
 const categoriesSuccess = (categories: TCategory[]) => {
   return {
     type: ACTIONS.FETCH_CATEGORIES_SUCCESS,
@@ -59,11 +98,48 @@ const categoriesFailure = (err: ErrorEvent) => {
   };
 };
 
+const loginRequested = () => {
+  return {
+    type: ACTIONS.FETCH_LOGIN_REQUESTED,
+  };
+};
+
+const loginSuccess = (data: { token: string; userLogin: string }) => {
+  return {
+    type: ACTIONS.FETCH_LOGIN_SUCCESS,
+    payload: data,
+  };
+};
+
+const loginFailure = (err: ErrorEvent) => {
+  return {
+    type: ACTIONS.FETCH_LOGIN_FAILURE,
+    payload: err,
+  };
+};
+
+const login =
+  (englishForKidsService: EnglishForKidsService) =>
+  (login: string, password: string) =>
+  (dispatch: AppDispatch) => {
+    dispatch(loginRequested());
+    englishForKidsService
+      .login(login, password)
+      .then((data) => dispatch(loginSuccess(data)))
+      .catch((err: ErrorEvent) => dispatch(loginFailure(err)));
+  };
+
+const logout = () => {
+  return {
+    type: ACTIONS.APP_LOGOUT,
+  };
+};
+
 const fetchCategories =
-  (englishForKidsService: EnglishForKidsService) => () => (dispatch: AppDispatch) => {
+  (englishForKidsService: EnglishForKidsService) => (page: number) => (dispatch: AppDispatch) => {
     dispatch(categoriesRequested());
     englishForKidsService
-      .getCategories()
+      .getCategories(page)
       .then((data: TCategory[]) => dispatch(categoriesSuccess(data)))
       .catch((err: ErrorEvent) => dispatch(categoriesFailure(err)));
   };
@@ -71,6 +147,13 @@ const fetchCategories =
 const setAppNavShown = (isShown: boolean) => {
   return {
     type: ACTIONS.APP_SET_NAV_SHOW,
+    payload: isShown,
+  };
+};
+
+const setLoginModalShown = (isShown: boolean) => {
+  return {
+    type: ACTIONS.APP_SET_LOGIN_MODAL_SHOW,
     payload: isShown,
   };
 };
@@ -102,22 +185,24 @@ const setGameCards = (cards: TCard[]) => {
 };
 
 const fetchCards =
-  (englishForKidsService: EnglishForKidsService) => (id: number) => (dispatch: AppDispatch) => {
+  (englishForKidsService: EnglishForKidsService) =>
+  (title: string, page: number) =>
+  (dispatch: AppDispatch) => {
     dispatch(gameCardsRequsted());
     englishForKidsService
-      .getCategoryCards(id)
+      .getCategoryCards(title, page)
       .then((data: TCard[]) => dispatch(gameCardsSuccess(data)))
       .catch((err: ErrorEvent) => dispatch(gameCardsFailure(err)));
   };
 
 const selectCategoryAndLoadCards =
   (englishForKidsService: EnglishForKidsService) =>
-  (category: TCategory) =>
+  (category: TCategory, page: number) =>
   (dispatch: AppDispatch) => {
     dispatch(selectCategory(category));
     dispatch(gameCardsRequsted());
     englishForKidsService
-      .getCategoryCards(category.id)
+      .getCategoryCards(category.title, page)
       .then((data: TCard[]) => dispatch(gameCardsSuccess(data)))
       .catch((err: ErrorEvent) => dispatch(gameCardsFailure(err)));
   };
@@ -197,4 +282,14 @@ export {
   selectCategoryAndLoadCards,
   fetchGameAssets,
   setGameCards,
+  setLoginModalShown,
+  loginFailure,
+  loginSuccess,
+  loginRequested,
+  login,
+  logout,
+  addNewCategories,
+  addNewCards,
+  updateCategory,
+  updateCard,
 };

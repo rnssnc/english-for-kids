@@ -34,7 +34,7 @@ class WordCard extends React.Component<IProps, IState> {
 
   render() {
     const {
-      card: { word, translation, imageSrc, isGuessed },
+      card: { word, translation, imgSrc, isGuessed },
       mode,
     } = this.props;
 
@@ -54,7 +54,7 @@ class WordCard extends React.Component<IProps, IState> {
           }`}
         >
           <div className="word-card__front">
-            <div className="word-card__image" style={{ backgroundImage: `url(${imageSrc})` }}></div>
+            <div className="word-card__image" style={{ backgroundImage: `url(${imgSrc})` }}></div>
             <div className="word-card__descriptions-wrapper">
               <div className="word-card__description-wrapper">
                 <span className="word-card__word">{word}</span>
@@ -69,7 +69,7 @@ class WordCard extends React.Component<IProps, IState> {
           </div>
 
           <div className="word-card__back">
-            <div className="word-card__image" style={{ backgroundImage: `url(${imageSrc})` }}></div>
+            <div className="word-card__image" style={{ backgroundImage: `url(${imgSrc})` }}></div>
             <div className="word-card__descriptions-wrapper">
               <div className="word-card__description-wrapper">
                 <span className="word-card__word-translation">{translation}</span>

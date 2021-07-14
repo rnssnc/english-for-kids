@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { TAppState } from '../../redux/reducers/reducer';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
-import { setAppNavShown, selectCategoryAndLoadCards } from '../../redux/actions/actions';
+import {
+  setAppNavShown,
+  selectCategoryAndLoadCards,
+  setLoginModalShown,
+} from '../../redux/actions/actions';
 
 import './app-navigation.sass';
 import compose from '../../utils/compose';
@@ -15,7 +19,8 @@ interface IProps {
   categories: TCategory[];
   isAppNavShown: boolean;
   setAppNavShown: typeof setAppNavShown;
-  selectCategoryAndLoadCards: (category: TCategory) => void;
+  selectCategoryAndLoadCards: (category: TCategory, page: number) => void;
+  setLoginModalShown: typeof setLoginModalShown;
   selectedCategory: TCategory | null;
 }
 
@@ -53,7 +58,7 @@ class AppNavigation extends React.Component<IProps, unknown> {
               </NavLink>
             </li>
             {items}
-            <li className="app-navigation-list__item">
+            {/* <li className="app-navigation-list__item">
               <NavLink
                 className="app-navigation-list__link"
                 activeClassName="navigation-link--active"
@@ -62,8 +67,17 @@ class AppNavigation extends React.Component<IProps, unknown> {
               >
                 Statistic
               </NavLink>
-            </li>
+            </li> */}
           </ul>
+          <button
+            className="app-navigation__login-modal-show-button"
+            onClick={() => {
+              this.props.setLoginModalShown(true);
+              this.props.setAppNavShown(false);
+            }}
+          >
+            Login
+          </button>
         </nav>
       </div>
     );
@@ -74,7 +88,7 @@ class AppNavigation extends React.Component<IProps, unknown> {
   };
 
   handleItemClick = (category: TCategory) => {
-    this.props.selectCategoryAndLoadCards(category);
+    this.props.selectCategoryAndLoadCards(category, -1);
   };
 }
 
@@ -86,7 +100,7 @@ interface INavigationItemProps {
 
 const AppNavigationItem = ({ category, onClick, selectedCategory }: INavigationItemProps) => {
   return (
-    <li key={category.id} className="app-navigation-list__item" onClick={() => onClick(category)}>
+    <li key={category._id} className="app-navigation-list__item" onClick={() => onClick(category)}>
       <NavLink
         className={`app-navigation-list__link ${
           selectedCategory === category ? 'navigation-link--active' : ''
@@ -110,6 +124,7 @@ const mapDispatchToProps = (
   return bindActionCreators(
     {
       setAppNavShown,
+      setLoginModalShown,
       selectCategoryAndLoadCards: selectCategoryAndLoadCards(englishForKidsService),
     },
     dispatch,

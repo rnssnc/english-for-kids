@@ -1,17 +1,23 @@
 export type TCategory = {
-  id: number;
+  _id: number;
   title: string;
   imgSrc: string;
   cardCount: number;
 };
 
+export type TNewCategory = {
+  title: string;
+  imgSrc: string;
+};
+
 export type TCard = {
+  _id: number;
   word: string;
   translation: string;
-  imageSrc: string;
+  imgSrc: string;
   audioSrc: string;
-  isGuessed: boolean;
   category: string;
+  isGuessed: boolean;
 };
 
 export type TGameAssets = {
@@ -23,22 +29,205 @@ export type TGameAssets = {
   looseImageSrc: string;
 };
 
+export type TWordToAdd = {
+  _id: number;
+  word: string;
+  translation: string;
+  imgSrc: string;
+  img: File | undefined;
+  audioSrc: string;
+  audio: File | undefined;
+  category: string;
+};
+
 export default class EnglishForKidsService {
-  async getCategories() {
-    return (await fetch('./assets/categories.json')).json();
+  defaultURL = 'https://rnssnc-english-for-kids-api.herokuapp.com';
+  categoreisURL = `${this.defaultURL}/categories`;
+  loginURL = `${this.defaultURL}/login`;
+
+  async login(login: string, password: string) {
+    return new Promise<{ token: string; userLogin: string }>(async (resolve, reject) => {
+      const response = await fetch(this.loginURL, {
+        method: 'POST',
+        body: JSON.stringify({ login, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
   }
 
-  async getCategoryCards(id: number): Promise<TCard[]> {
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
-        resolve((await fetch(`./assets/categories/${id}.json`)).json());
-      }, 700);
+  async getCategories(page = 0) {
+    return new Promise<TCategory[]>(async (resolve, reject) => {
+      const categoriesResponse = await fetch(`${this.categoreisURL}?_page=${page}`);
+      const categories: TCategory[] = await categoriesResponse.json();
+
+      const categoriesWithLength = [];
+
+      for (let i = 0; i < categories.length; i++) {
+        const length = await this.getCategoryLength(categories[i].title);
+
+        categoriesWithLength.push({ ...categories[i], cardCount: length });
+      }
+
+      resolve(categoriesWithLength);
     });
-    // return (await fetch(`./assets/categories/${id}.json`)).json();
+  }
+
+  async getCategoryCards(title: string, page = 0) {
+    const link = title.split(' ').join('-');
+    return (await fetch(`${this.defaultURL}/${link}/words?_page=${page}`)).json();
   }
 
   async getGameAssets() {
     return (await fetch(`./assets/assets.json`)).json();
+  }
+
+  private getCategoryLength = async (category: string) => {
+    const response = await fetch(`${this.defaultURL}/${category}/words/length`, {
+      method: 'GET',
+      headers: { Accept: 'application/json' },
+    });
+
+    const length = await response.json();
+
+    return length;
+  };
+
+  async createCategory(category: { title: string; imgSrc: string; img?: File }) {
+    return new Promise<TCategory>(async (resolve, reject) => {
+      const auth = sessionStorage.getItem('auth');
+
+      const formData = new FormData();
+
+      formData.set('title', category.title);
+      formData.set('imgSrc', category.imgSrc);
+      if (category.img) formData.set('image', category.img);
+
+      const response = await fetch(this.categoreisURL, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
+  }
+
+  async createWord(word: TWordToAdd) {
+    return new Promise<TCard>(async (resolve, reject) => {
+      const auth = sessionStorage.getItem('auth');
+
+      const formData = new FormData();
+
+      formData.set('word', word.word);
+      formData.set('translation', word.translation);
+      formData.set('imgSrc', word.imgSrc);
+      formData.set('audioSrc', word.audioSrc);
+      formData.set('category', word.category);
+      if (word.img) formData.set('image', word.img);
+      if (word.audio) formData.set('audio', word.audio);
+
+      const response = await fetch(`${this.defaultURL}/${word.category}/words`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
+  }
+
+  async deleteWord(title: string, _id: number) {
+    const link = title.split(' ').join('-');
+
+    const auth = sessionStorage.getItem('auth');
+
+    return new Promise<TCategory>(async (resolve, reject) => {
+      const response = await fetch(`${this.defaultURL}/${link}/words`, {
+        method: 'DELETE',
+        body: JSON.stringify({ _id }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
+  }
+
+  async updateWord(word: TWordToAdd) {
+    return new Promise<TCard>(async (resolve, reject) => {
+      const auth = sessionStorage.getItem('auth');
+
+      const formData = new FormData();
+
+      formData.set('id', word._id.toString());
+      formData.set('word', word.word);
+      formData.set('translation', word.translation);
+      formData.set('imgSrc', word.imgSrc);
+      formData.set('audioSrc', word.audioSrc);
+      formData.set('category', word.category);
+      if (word.img) formData.set('image', word.img);
+      if (word.audio) formData.set('audio', word.audio);
+
+      const response = await fetch(`${this.defaultURL}/${word.category}/words`, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
+  }
+
+  async updateCategory(category: { _id: number; imgSrc: string; title: string; img?: File }) {
+    return new Promise<TCategory>(async (resolve, reject) => {
+      const auth = sessionStorage.getItem('auth');
+
+      const formData = new FormData();
+
+      formData.set('id', category._id.toString());
+      formData.set('title', category.title);
+      formData.set('imgSrc', category.imgSrc);
+      if (category.img) formData.set('image', category.img);
+
+      const response = await fetch(this.categoreisURL, {
+        method: 'PUT',
+        body: formData,
+        headers: {
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
+  }
+
+  async deleteCategory(_id: number) {
+    const auth = sessionStorage.getItem('auth');
+
+    return new Promise<TCategory>(async (resolve, reject) => {
+      const response = await fetch(this.categoreisURL, {
+        method: 'DELETE',
+        body: JSON.stringify({ _id }),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: auth ? auth : '',
+        },
+      });
+      if (response.ok) resolve(await response.json());
+      if (!response.ok) reject(await response.json());
+    });
   }
 
   async getCategoryCard(categoryId: number, cardWord: string) {

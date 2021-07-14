@@ -20,7 +20,7 @@ const WordList = ({ cards }: IProps) => {
 
 const WordListItem = (card: TCard) => {
   return (
-    <li key={card.word} className="word-list__item">
+    <li key={card._id} className="word-list__item">
       <WordCard card={card} />
     </li>
   );

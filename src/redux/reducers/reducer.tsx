@@ -16,13 +16,16 @@ export enum GAME_MODES {
 }
 
 export type TAppState = {
+  loggedAsAdmin: boolean;
+
   mode: APP_MODES;
   isAppNavShown: boolean;
+  isAppLoginModalShown: boolean;
   categories: TCategory[];
   selectedCategory: TCategory | null;
 
   loading: boolean;
-  error: boolean;
+  error: boolean | { object: string; message: string };
 
   cards: TCard[];
   gameMode: GAME_MODES;
@@ -33,7 +36,10 @@ export type TAppState = {
 };
 
 const initalState: TAppState = {
+  loggedAsAdmin: false,
+
   mode: APP_MODES.train,
+  isAppLoginModalShown: false,
   categories: [],
   loading: false,
   error: false,
@@ -69,6 +75,43 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
         mode: action.payload,
         cards: unGuessCards,
       };
+    case ACTIONS.ADD_NEW_CATEGORIES:
+      return {
+        ...state,
+        categories: Array.from(new Set([...state.categories, ...action.payload])),
+      };
+    case ACTIONS.UPDATE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.map((category) =>
+          category._id === action.payload._id ? action.payload : category,
+        ),
+      };
+    case ACTIONS.ADD_NEW_CARDS:
+      return { ...state, cards: Array.from(new Set([...state.cards, ...action.payload])) };
+
+    case ACTIONS.UPDATE_CARD:
+      return {
+        ...state,
+        cards: state.cards.map((card) => (card._id === action.payload._id ? action.payload : card)),
+      };
+    case ACTIONS.FETCH_LOGIN_REQUESTED:
+      return { ...state, loading: true, error: false };
+    case ACTIONS.FETCH_LOGIN_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: { object: 'login-modal', message: action.payload.message },
+      };
+    case ACTIONS.FETCH_LOGIN_SUCCESS:
+      sessionStorage.setItem('auth', JSON.stringify(action.payload));
+      return {
+        ...state,
+        loading: false,
+        loggedAsAdmin: true,
+        isAppLoginModalShown: false,
+        error: false,
+      };
     case ACTIONS.FETCH_CATEGORIES_REQUESTED:
       return { ...state, categories: [], loading: true, error: false };
     case ACTIONS.FETCH_CATEGORIES_SUCCESS:
@@ -83,13 +126,16 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
       return {
         ...state,
         selectedCategory: {
-          id: -1,
+          _id: -1,
           cardCount: action.payload.length,
           imgSrc: '',
           title: 'Custom cards',
         },
         cards: action.payload,
       };
+
+    case ACTIONS.APP_LOGOUT:
+      return { ...state, categories: [], selectedCategory: null, cards: [], loggedAsAdmin: false };
     case ACTIONS.FETCH_GAME_CARDS_REQUESTED:
       return { ...state, gameMode: GAME_MODES.none, cards: [], loading: true, error: false };
     case ACTIONS.FETCH_GAME_CARDS_SUCCESS:
@@ -138,6 +184,11 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
       return {
         ...state,
         gameAssets: action.payload,
+      };
+    case ACTIONS.APP_SET_LOGIN_MODAL_SHOW:
+      return {
+        ...state,
+        isAppLoginModalShown: action.payload,
       };
 
     default:

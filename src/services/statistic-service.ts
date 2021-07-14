@@ -75,9 +75,6 @@ export default class StatisticService {
 
     newItem[field]++;
 
-    if (field === 'correctCount') newItem.precent = '100%';
-    if (field === 'incorrectCount') newItem.precent = '0%';
-
     statistic.push(newItem);
 
     localStorage.setItem(this.keyName, JSON.stringify(statistic));
