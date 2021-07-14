@@ -1,3 +1,6 @@
+import { logout } from '../redux/actions/actions';
+import store from '../store';
+
 export type TCategory = {
   _id: number;
   title: string;
@@ -40,8 +43,13 @@ export type TWordToAdd = {
   category: string;
 };
 
+function checkAuthReponse(response: Response) {
+  if (response.status === 401) store.dispatch(logout());
+}
+
 export default class EnglishForKidsService {
-  defaultURL = 'https://rnssnc-english-for-kids-api.herokuapp.com';
+  // defaultURL = 'http://rnssnc-english-for-kids-api.herokuapp.com';
+  defaultURL = 'http://localhost:80';
   categoreisURL = `${this.defaultURL}/categories`;
   loginURL = `${this.defaultURL}/login`;
 
@@ -54,6 +62,7 @@ export default class EnglishForKidsService {
           'Content-Type': 'application/json',
         },
       });
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -62,6 +71,9 @@ export default class EnglishForKidsService {
   async getCategories(page = 0) {
     return new Promise<TCategory[]>(async (resolve, reject) => {
       const categoriesResponse = await fetch(`${this.categoreisURL}?_page=${page}`);
+
+      checkAuthReponse(categoriesResponse);
+
       const categories: TCategory[] = await categoriesResponse.json();
 
       const categoriesWithLength = [];
@@ -78,7 +90,11 @@ export default class EnglishForKidsService {
 
   async getCategoryCards(title: string, page = 0) {
     const link = title.split(' ').join('-');
-    return (await fetch(`${this.defaultURL}/${link}/words?_page=${page}`)).json();
+    const response = await fetch(`${this.defaultURL}/${link}/words?_page=${page}`);
+
+    checkAuthReponse(response);
+
+    return response.json();
   }
 
   async getGameAssets() {
@@ -113,6 +129,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -139,6 +158,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -158,6 +180,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -185,6 +210,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -208,6 +236,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
@@ -225,6 +256,9 @@ export default class EnglishForKidsService {
           Authorization: auth ? auth : '',
         },
       });
+
+      checkAuthReponse(response);
+
       if (response.ok) resolve(await response.json());
       if (!response.ok) reject(await response.json());
     });
