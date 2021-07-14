@@ -23,7 +23,6 @@ class HomePage extends React.Component<IProps, unknown> {
   }
 
   render() {
-    console.log(this.props.loading);
     const content = this.props.loading ? (
       <Spinner />
     ) : (
