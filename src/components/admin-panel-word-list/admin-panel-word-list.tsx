@@ -76,7 +76,7 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
   loadNextPage = () => {
     if (this.state.page <= Math.round(this.props.selectedCategory.cardCount / 3))
       this.props.englishForKidsService
-        .getCategoryCards(this.props.selectedCategory.title, this.state.page + 1)
+        .getCategoryCards(this.props.selectedCategory.title, this.state.page)
         .then((cards) => this.props.addNewCards(cards))
         .then(() =>
           this.setState((state) => ({
