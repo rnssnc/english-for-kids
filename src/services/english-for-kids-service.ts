@@ -48,7 +48,7 @@ function checkAuthReponse(response: Response) {
 }
 
 export default class EnglishForKidsService {
-  defaultURL = 'http://rnssnc-english-for-kids-api.herokuapp.com';
+  defaultURL = 'https://rnssnc-english-for-kids-api.herokuapp.com';
   // defaultURL = 'http://localhost:80';
   categoreisURL = `${this.defaultURL}/categories`;
   loginURL = `${this.defaultURL}/login`;
