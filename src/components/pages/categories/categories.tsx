@@ -18,9 +18,9 @@ interface IProps {
 }
 
 class CategoriesPage extends React.Component<IProps, unknown> {
-  componentDidMount() {
-    this.props.fetchCategories();
-  }
+  // componentDidMount() {
+  //   this.props.fetchCategories();
+  // }
 
   render() {
     if (!this.props.loggedAsAdmin) return <Redirect to="/" />;

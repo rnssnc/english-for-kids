@@ -78,22 +78,34 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
     case ACTIONS.ADD_NEW_CATEGORIES:
       return {
         ...state,
-        categories: Array.from(new Set([...state.categories, ...action.payload])),
+        categories: [...state.categories, ...action.payload],
       };
     case ACTIONS.UPDATE_CATEGORY:
       return {
         ...state,
         categories: state.categories.map((category) =>
-          category._id === action.payload._id ? action.payload : category,
+          category._id === action.payload.id ? action.payload.category : category,
         ),
       };
+    case ACTIONS.DELETE_CARD:
+      return {
+        ...state,
+        cards: state.cards.filter((c) => c._id !== action.payload),
+      };
+    case ACTIONS.DELETE_CATEGORY:
+      return {
+        ...state,
+        categories: state.categories.filter((c) => c._id !== action.payload),
+      };
     case ACTIONS.ADD_NEW_CARDS:
-      return { ...state, cards: Array.from(new Set([...state.cards, ...action.payload])) };
+      return { ...state, cards: [...state.cards, ...action.payload] };
 
     case ACTIONS.UPDATE_CARD:
       return {
         ...state,
-        cards: state.cards.map((card) => (card._id === action.payload._id ? action.payload : card)),
+        cards: state.cards.map((card) =>
+          card._id === action.payload.id ? action.payload.card : card,
+        ),
       };
     case ACTIONS.FETCH_LOGIN_REQUESTED:
       return { ...state, loading: true, error: false };
@@ -110,6 +122,7 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
         loading: false,
         loggedAsAdmin: true,
         isAppLoginModalShown: false,
+        categories: [],
         error: false,
       };
     case ACTIONS.FETCH_CATEGORIES_REQUESTED:
@@ -157,6 +170,9 @@ const reducer = (state = initalState, action: AnyAction): TAppState => {
       return { ...state, gameMode: action.payload };
     case ACTIONS.GAME_SET_CURRENT_CARD:
       return { ...state, currentCard: action.payload };
+    case ACTIONS.CLEAR_CATEGORIES:
+      return { ...state, categories: [] };
+
     case ACTIONS.GAME_ADD_ATTEMPT: {
       if (action.payload === true) {
         const newCardsToPlay = [...state.cardsToPlay];

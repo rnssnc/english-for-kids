@@ -2,16 +2,15 @@ import React from 'react';
 import InView from 'react-intersection-observer';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import {
   selectCategory,
-  fetchCategories,
   addNewCategories,
   updateCategory,
+  clearCategories,
+  deleteCategory,
 } from '../../redux/actions/actions';
 import { TAppState } from '../../redux/reducers/reducer';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
-import { AppDispatch } from '../../store';
 import compose from '../../utils/compose';
 import AdminPanelCategoryCard from '../admin-panel-category-card/admin-panel-category-card';
 import withEnglishForKidsService from '../hoc/with-english-for-kids-service';
@@ -24,6 +23,8 @@ interface IProps {
   englishForKidsService: EnglishForKidsService;
   addNewCategories: typeof addNewCategories;
   updateCategory: typeof updateCategory;
+  clearCategories: typeof clearCategories;
+  deleteCategory: typeof deleteCategory;
 }
 
 interface IState {
@@ -41,11 +42,16 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
     isHasMoreData: true,
   };
 
-  componentDidUpdate(prevProps: IProps) {
+  componentDidUpdate = (prevProps: IProps) => {
     if (this.props.categories !== prevProps.categories) {
       this.setState({ categories: this.props.categories });
     }
-  }
+  };
+
+  componentWillUnmount = () => {
+    this.props.clearCategories();
+  };
+
   render() {
     if (this.state.redirect)
       return <Redirect to={`/${this.state.redirect.toLowerCase().replaceAll(' ', '-')}/words`} />;
@@ -57,7 +63,7 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
         onSubmit={this.onSubmit}
         onAddWords={this.onAddWords}
         onNewItemCancel={category._id < 0 ? this.onNewItemCancel : undefined}
-        onDelete={this.onDelele}
+        onDelete={this.onDelete}
       />
     ));
 
@@ -85,7 +91,7 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
 
   loadNextPage = () => {
     if (this.state.isHasMoreData)
-      this.props.englishForKidsService.getCategories(this.state.page + 1).then((cards) => {
+      this.props.englishForKidsService.getCategories(this.state.page).then((cards) => {
         this.props.addNewCategories(cards);
         const isMoreData = cards.length > 0;
 
@@ -96,41 +102,25 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
       });
   };
 
-  onDelele = (_id: number) => {
+  onDelete = (_id: number) => {
     if (_id < 0) {
-      this.setState(({ categories }) => {
-        const newCategories = categories.filter((category) => category._id !== _id);
-
-        return { categories: newCategories };
-      });
-
+      this.props.deleteCategory(_id);
       return;
     }
 
     this.props.englishForKidsService.deleteCategory(_id).then(() => {
-      this.setState(({ categories }) => ({
-        categories: categories.filter((category) => category._id !== _id),
-      }));
+      this.props.deleteCategory(_id);
     });
   };
 
   addNewItemToRender = () => {
-    this.setState(({ categories }) => {
-      return {
-        categories: [
-          ...categories,
-          { cardCount: 0, _id: -categories.length - 1, imgSrc: '', title: '' },
-        ],
-      };
-    });
+    this.props.addNewCategories([
+      { cardCount: 0, _id: -this.state.categories.length - 1, imgSrc: '', title: '' },
+    ]);
   };
 
   onNewItemCancel = (_id: number) => {
-    this.setState(({ categories }) => {
-      return {
-        categories: categories.filter((category) => category._id !== _id),
-      };
-    });
+    this.props.deleteCategory(_id);
   };
 
   onSubmit = async (category: {
@@ -142,20 +132,38 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
     let message = '';
     if (category._id < 0) {
       await this.props.englishForKidsService
-        .createCategory({
-          title: category.title,
-          imgSrc: category.imgSrc,
-          img: category.img,
+        .createCategory(category)
+        .then((newCategory) => {
+          console.log(newCategory);
+          this.props.updateCategory(newCategory, category._id);
         })
-        .then((newCategory) => this.props.addNewCategories([newCategory]))
         .catch((err) => {
           if (err.code === 11000) message = 'This name is already taken';
           else message = err.message;
         });
+      // await this.props.englishForKidsService
+      //   .createCategory({
+      //     title: category.title,
+      //     imgSrc: category.imgSrc,
+      //     img: category.img,
+      //   })
+      //   .then((newCategory) => {
+      //     this.setState((state) => {
+      //       return { categories: state.categories.filter((c) => c._id >= 0) };
+      //     });
+      //     this.props.addNewCategories([newCategory]);
+      //   })
+      //   .catch((err) => {
+      //     if (err.code === 11000) message = 'This name is already taken';
+      //     else message = err.message;
+      //   });
     } else {
       await this.props.englishForKidsService
         .updateCategory(category)
-        .then((newCategory) => this.props.updateCategory(newCategory))
+        .then((newCategory) => {
+          console.log(newCategory);
+          this.props.updateCategory(newCategory);
+        })
         .catch((err) => {
           if (err.code === 11000) message = 'This name is already taken';
           else message = err.message;
@@ -210,19 +218,12 @@ const mapStateToProps = ({ categories }: TAppState) => {
   return { categories };
 };
 
-const mapDispatchToProps = (
-  dispatch: AppDispatch,
-  { englishForKidsService }: { englishForKidsService: EnglishForKidsService },
-) => {
-  return bindActionCreators(
-    {
-      selectCategory,
-      fetchCategories,
-      updateCategory,
-      addNewCategories,
-    },
-    dispatch,
-  );
+const mapDispatchToProps = {
+  selectCategory,
+  updateCategory,
+  addNewCategories,
+  clearCategories,
+  deleteCategory,
 };
 
 export default compose(

@@ -30,14 +30,19 @@ export enum ACTIONS {
 
   ADD_NEW_CATEGORIES = 'ADD_NEW_CATEGORIES',
   ADD_NEW_CARDS = 'ADD_NEW_CARDS',
+
   UPDATE_CATEGORY = 'UPDATE_CATEGORY',
+  DELETE_CATEGORY = 'DELETE_CATEGORY',
+
   UPDATE_CARD = 'UPDATE_CARD',
+  DELETE_CARD = 'DELETE_CARD',
 
   FETCH_GAME_CARDS_REQUESTED = 'FETCH_GAME_CARDS_REQUESTED',
   FETCH_GAME_CARDS_SUCCESS = 'FETCH_GAME_CARDS_SUCCESS',
   FETCH_GAME_CARDS_FAILURE = 'FETCH_GAME_CARDS_FAILURE',
   SET_CUSTOM_GAME_CARDS = 'SET_CUSTOM_GAME_CARDS',
 
+  CLEAR_CATEGORIES = 'CLEAR_CATEGORIES',
   FETCH_GAME_ASSETS_REQUESTED = 'FETCH_GAME_ASSETS_REQUESTED',
   FETCH_GAME_ASSETS_SUCCESS = 'FETCH_GAME_ASSETS_SUCCESS',
   FETCH_GAME_ASSETS_FAILURE = 'FETCH_GAME_ASSETS_FAILURE',
@@ -56,6 +61,10 @@ const categoriesRequested = () => {
   };
 };
 
+const clearCategories = () => {
+  return { type: ACTIONS.CLEAR_CATEGORIES };
+};
+
 const addNewCategories = (categories: TCategory[]) => {
   return {
     type: ACTIONS.ADD_NEW_CATEGORIES,
@@ -70,18 +79,22 @@ const addNewCards = (cards: TCard[]) => {
   };
 };
 
-const updateCategory = (category: TCategory) => {
+const updateCategory = (category: TCategory, id = category._id) => {
   return {
     type: ACTIONS.UPDATE_CATEGORY,
-    payload: category,
+    payload: { category, id },
   };
 };
 
-const updateCard = (card: TCard) => {
+const updateCard = (card: TCard, id = card._id) => {
   return {
     type: ACTIONS.UPDATE_CARD,
-    payload: card,
+    payload: { card, id },
   };
+};
+
+const deleteCard = (id: number) => {
+  return { type: ACTIONS.DELETE_CARD, payload: id };
 };
 
 const categoriesSuccess = (categories: TCategory[]) => {
@@ -108,6 +121,13 @@ const loginSuccess = (data: { token: string; userLogin: string }) => {
   return {
     type: ACTIONS.FETCH_LOGIN_SUCCESS,
     payload: data,
+  };
+};
+
+const deleteCategory = (id: number) => {
+  return {
+    type: ACTIONS.DELETE_CATEGORY,
+    payload: id,
   };
 };
 
@@ -292,4 +312,7 @@ export {
   addNewCards,
   updateCategory,
   updateCard,
+  clearCategories,
+  deleteCategory,
+  deleteCard,
 };

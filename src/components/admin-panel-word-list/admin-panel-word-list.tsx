@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { InView } from 'react-intersection-observer';
 
 import { TAppState } from '../../redux/reducers/reducer';
-import { addNewCards, updateCard } from '../../redux/actions/actions';
+import { addNewCards, updateCard, deleteCard } from '../../redux/actions/actions';
 import EnglishForKidsService, {
   TCard,
   TCategory,
@@ -22,6 +22,7 @@ interface IProps {
   words: TCard[];
   updateCard: typeof updateCard;
   addNewCards: typeof addNewCards;
+  deleteCard: typeof deleteCard;
 }
 
 interface IState {
@@ -52,7 +53,7 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
         word={word}
         onSubmit={this.onSubmit}
         onNewItemCancel={word._id < 0 ? this.onNewItemCancel : undefined}
-        onDelete={this.onDelele}
+        onDelete={this.onDelete}
       />
     ));
 
@@ -60,11 +61,7 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
       <div className="admin-panel-words-list__wrapper">
         <ul className="admin-panel-words-list">
           {items}
-          <InView
-            // threshold={}
-            delay={300}
-            onChange={(isInView) => (isInView ? this.loadNextPage() : null)}
-          >
+          <InView threshold={1} onChange={(isInView) => (isInView ? this.loadNextPage() : null)}>
             <li className="words-list__item words-list__item-add">
               <div className="admin-panel-word-card words-list__add-word">
                 <span className="typography-h4">Add new word</span>
@@ -80,65 +77,51 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
   }
 
   loadNextPage = () => {
-    this.props.englishForKidsService
-      .getCategoryCards(this.props.selectedCategory.title, this.state.page)
-      .then((cards) => {
-        this.props.addNewCards(cards);
+    if (this.state.isHasMoreData) {
+      this.props.englishForKidsService
+        .getCategoryCards(this.props.selectedCategory.title, this.state.page)
+        .then((cards) => {
+          console.log(cards);
+          this.props.addNewCards([...cards]);
 
-        const isMoreData = cards.length > 0;
+          const isMoreData = cards.length > 0;
 
-        this.setState((state) => ({
-          page: state.page + 1,
-          isHasMoreData: isMoreData,
-        }));
-      });
+          this.setState((state) => ({
+            page: state.page + 1,
+            isHasMoreData: isMoreData,
+          }));
+        });
+    }
   };
 
-  onDelele = (category: string, _id: number) => {
+  onDelete = (category: string, _id: number) => {
     if (_id < 0) {
-      this.setState(({ words }) => {
-        const newWords = words.filter((word) => word._id !== _id);
-
-        return { words: newWords };
-      });
+      this.props.deleteCard(_id);
 
       return;
     }
 
     this.props.englishForKidsService.deleteWord(category, _id).then(() => {
-      this.setState(({ words }) => {
-        const newWords = words.filter((word) => word._id !== _id);
-
-        return { words: newWords };
-      });
+      this.props.deleteCard(_id);
     });
   };
 
   addNewItemToRender = () => {
-    this.setState(({ words }) => {
-      return {
-        words: [
-          ...words,
-          {
-            _id: -words.length - 1,
-            category: this.props.selectedCategory.title,
-            audioSrc: '',
-            imgSrc: '',
-            translation: '',
-            word: '',
-            isGuessed: false,
-          },
-        ],
-      };
-    });
+    this.props.addNewCards([
+      {
+        _id: -this.props.words.length - 1,
+        category: this.props.selectedCategory.title,
+        audioSrc: '',
+        imgSrc: '',
+        translation: '',
+        word: '',
+        isGuessed: false,
+      },
+    ]);
   };
 
   onNewItemCancel = (_id: number) => {
-    this.setState(({ words }) => {
-      return {
-        words: words.filter((word) => word._id !== _id),
-      };
-    });
+    this.props.deleteCard(_id);
   };
 
   onSubmit = async (data: TWordToAdd) => {
@@ -147,7 +130,7 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
     if (data._id < 0) {
       this.props.englishForKidsService
         .createWord(data)
-        .then((newWord) => this.props.addNewCards([newWord]))
+        .then((newWord) => this.props.updateCard(newWord, data._id))
         .catch((err) => (message = err.message));
 
       return message;
@@ -206,6 +189,7 @@ const mapStateToProps = ({ cards, selectedCategory }: TAppState) => {
 const mapDispatchToProps = {
   addNewCards,
   updateCard,
+  deleteCard,
 };
 
 export default compose(
