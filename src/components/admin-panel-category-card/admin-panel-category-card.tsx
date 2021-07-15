@@ -91,6 +91,7 @@ const AdminPanelCategoryCard = ({
           disabled={!isUpdateMode}
           type="file"
           accept="image/png, image/jpeg, image/svg"
+          className="admin-panel-category-card__file-input"
           onChange={(e) => {
             if (e.target.files && e.target.files[0]) {
               setImgFile(e.target.files[0]);

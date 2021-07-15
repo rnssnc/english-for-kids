@@ -100,6 +100,7 @@ class AdminPanelWordCard extends React.Component<IProps, IState> {
               disabled={!isUpdateMode}
               type="file"
               accept="image/png, image/jpeg, image/svg"
+              className="admin-panel-word-card__file-input"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
                   this.setState({ img: e.target.files[0] });
@@ -118,6 +119,7 @@ class AdminPanelWordCard extends React.Component<IProps, IState> {
               disabled={!isUpdateMode}
               type="file"
               accept="audio/mp3"
+              className="admin-panel-word-card__file-input"
               onChange={(e) => {
                 if (e.target.files && e.target.files[0]) {
                   this.setState({ audio: e.target.files[0] });
