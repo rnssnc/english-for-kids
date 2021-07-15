@@ -134,7 +134,6 @@ class AdminPanelCategoryList extends React.Component<IProps, IState> {
       await this.props.englishForKidsService
         .createCategory(category)
         .then((newCategory) => {
-          console.log(newCategory);
           this.props.updateCategory(newCategory, category._id);
         })
         .catch((err) => {

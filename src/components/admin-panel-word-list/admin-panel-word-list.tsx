@@ -81,7 +81,6 @@ class AdminPanelWordList extends React.Component<IProps, IState> {
       this.props.englishForKidsService
         .getCategoryCards(this.props.selectedCategory.title, this.state.page)
         .then((cards) => {
-          console.log(cards);
           this.props.addNewCards([...cards]);
 
           const isMoreData = cards.length > 0;
