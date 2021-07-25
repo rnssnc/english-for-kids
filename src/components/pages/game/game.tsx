@@ -7,7 +7,7 @@ import {
   setGameMode,
   selectCategory,
 } from '../../../redux/actions/actions';
-import { APP_MODES, GAME_MODES, TAppState } from '../../../redux/reducers/reducer';
+import { APP_MODES, GAME_MODES, TAppState } from '../../../redux/reducers';
 import EnglishForKidsService, {
   TGameAssets,
   TCard,
@@ -22,6 +22,7 @@ import GameStartButton from '../../game-start-button/game-start-button';
 import RepeatButton from '../../repeat-button/repeat-button';
 import AttemptCounter from '../../attempt-counter/attempt-counter';
 import GameResultModal from '../../game-results-modal/game-result-modal';
+import { Redirect } from 'react-router-dom';
 
 import _ from 'lodash';
 
@@ -43,16 +44,22 @@ interface IProps {
   selectCategory: typeof selectCategory;
 }
 
-class GamePage extends React.Component<IProps> {
+interface IState {
+  redirect: boolean;
+}
+
+class GamePage extends React.Component<IProps, IState> {
+  state: IState = {
+    redirect: false,
+  };
+
   currentItem!: TCard;
 
   audio!: HTMLAudioElement;
 
-  // componentDidMount() {
-  //   const { fetchCards, selectedCategory } = this.props;
-
-  //   if (selectedCategory) fetchCards(selectedCategory._id);
-  // }
+  componentDidMount() {
+    if (!this.props.selectedCategory) this.setState({ redirect: true });
+  }
 
   componentDidUpdate(prevProps: IProps) {
     const { selectedCategory, currentCard } = this.props;
@@ -77,7 +84,18 @@ class GamePage extends React.Component<IProps> {
   }
 
   render() {
+    if (this.state.redirect) return <Redirect to="/" />;
+
     const { selectedCategory, cards, loading, gameMode, mode, attempts } = this.props;
+
+    let emptyMessage = null;
+    if (cards.length === 0)
+      emptyMessage = (
+        <h2>
+          Seems like no cards added to this category. <br /> You can add it by yourself in admin
+          panel.
+        </h2>
+      );
 
     const isAppModePlay = mode === APP_MODES.play;
     const isModeGameReady = gameMode === GAME_MODES.ready;
@@ -85,10 +103,6 @@ class GamePage extends React.Component<IProps> {
     const isGameModeFinish = gameMode === GAME_MODES.finish;
 
     const spinner = loading ? <Spinner /> : null;
-
-    const emptyCategoryMessage = (
-      <h2 className="typography-h2">Select a category before start :)</h2>
-    );
 
     const content = (
       <React.Fragment>
@@ -103,11 +117,10 @@ class GamePage extends React.Component<IProps> {
       </React.Fragment>
     );
 
-    const pageContent = selectedCategory ? content : emptyCategoryMessage;
-
     return (
       <section className="section">
-        {pageContent}
+        {content}
+        {emptyMessage}
         {spinner}
       </section>
     );

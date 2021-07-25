@@ -6,7 +6,7 @@ import AppNavigationSwitcher from '../app-navigation-switcher/app-navigation-swi
 import AppModeSwitcher from '../app-mode-switcher/app-mode-switcher';
 import { setAppNavShown } from '../../redux/actions/actions';
 import { connect } from 'react-redux';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 
 interface IProps {
   isAppNavShown: boolean;

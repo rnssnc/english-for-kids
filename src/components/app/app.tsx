@@ -13,8 +13,7 @@ import compose from '../../utils/compose';
 import withEnglishForKidsService from '../hoc/with-english-for-kids-service';
 import AppNavigation from '../app-navigation/app-navigation';
 import LavaLamp from '../lavalamp/lavalamp';
-import { APP_MODES, TAppState } from '../../redux/reducers/reducer';
-import AppFooter from '../app-footer/app-footer';
+import { APP_MODES, TAppState } from '../../redux/reducers';
 import LoginModal from '../login-modal/login-modal';
 import AdminPanelHeader from '../admin-panel-header/admin-panel-header';
 
@@ -40,10 +39,6 @@ class App extends React.Component<IProps, IState> {
     this.props.fetchCategories(-1);
     this.props.fetchGameAssets();
     sessionStorage.clear();
-
-    alert(
-      'Привет, все требования к работе соблюдены (Advanced Scope тоже). Если возникли вопросы или какой-то из сервисов отвалился, пожайлуста напиши мне в дискод Renaissance#6666',
-    );
   }
 
   componentDidUpdate(prevProps: IProps) {
@@ -79,7 +74,7 @@ class App extends React.Component<IProps, IState> {
           <Route path="/:categories/words" component={WordsPage} />
           <Route path="/categories" component={CategoriesPage} />
         </Switch>
-        <AppFooter />
+        {/* <AppFooter /> */}
         {!loggedAsAdmin && <AppNavigation />}
         <LoginModal />
         {redirect}

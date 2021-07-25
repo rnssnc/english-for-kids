@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { GAME_MODES, TAppState } from '../../redux/reducers/reducer';
+import { GAME_MODES, TAppState } from '../../redux/reducers';
 import { setGameMode } from '../../redux/actions/actions';
 
 import './game-start-button.sass';

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { logout } from '../../redux/actions/actions';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import { TCategory } from '../../services/english-for-kids-service';
 
 import './admin-panel-header.sass';

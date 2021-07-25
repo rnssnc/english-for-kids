@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectCategoryAndLoadCards } from '../../redux/actions/actions';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
 import { AppDispatch } from '../../store';
 import compose from '../../utils/compose';

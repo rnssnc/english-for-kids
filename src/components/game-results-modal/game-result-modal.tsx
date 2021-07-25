@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 
 import './game-result-modal.sass';
 

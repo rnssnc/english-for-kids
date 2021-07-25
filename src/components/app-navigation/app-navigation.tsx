@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
 import {
   setAppNavShown,
@@ -68,16 +68,18 @@ class AppNavigation extends React.Component<IProps, unknown> {
                 Statistic
               </NavLink>
             </li> */}
+            <li className="app-navigation-list__item">
+              <button
+                className="app-navigation__login-modal-show-button"
+                onClick={() => {
+                  this.props.setLoginModalShown(true);
+                  this.props.setAppNavShown(false);
+                }}
+              >
+                Login
+              </button>
+            </li>
           </ul>
-          <button
-            className="app-navigation__login-modal-show-button"
-            onClick={() => {
-              this.props.setLoginModalShown(true);
-              this.props.setAppNavShown(false);
-            }}
-          >
-            Login
-          </button>
         </nav>
       </div>
     );

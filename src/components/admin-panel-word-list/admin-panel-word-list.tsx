@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { InView } from 'react-intersection-observer';
 
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import { addNewCards, updateCard, deleteCard } from '../../redux/actions/actions';
 import EnglishForKidsService, {
   TCard,

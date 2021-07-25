@@ -9,7 +9,7 @@ import {
   clearCategories,
   deleteCategory,
 } from '../../redux/actions/actions';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import EnglishForKidsService, { TCategory } from '../../services/english-for-kids-service';
 import compose from '../../utils/compose';
 import AdminPanelCategoryCard from '../admin-panel-category-card/admin-panel-category-card';

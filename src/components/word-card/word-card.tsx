@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { APP_MODES, GAME_MODES, TAppState } from '../../redux/reducers/reducer';
+import { APP_MODES, GAME_MODES, TAppState } from '../../redux/reducers';
 import { TGameAssets, TCard, TCategory } from '../../services/english-for-kids-service';
 
 import { addAttempt } from '../../redux/actions/actions';
@@ -44,15 +44,13 @@ class WordCard extends React.Component<IProps, IState> {
 
     return (
       <div
-        className={`word-card__wrapper ${isGuessed ? 'card--gaussed-correct' : ''}`}
+        className={`word-card__wrapper ${isGuessed ? 'card--gaussed-correct' : ''} ${
+          isFlipped ? 'word-card--flipped' : ''
+        }`}
         onMouseLeave={() => !isAppOnPlayMode && this.unflip()}
         onMouseDown={debounce(this.handleCardClick, 200)}
       >
-        <div
-          className={`word-card ${isFlipped ? 'word-card--flipped' : ''}  ${
-            isAppOnPlayMode ? 'word-card--mode-play' : ''
-          }`}
-        >
+        <div className={`word-card ${isAppOnPlayMode ? 'word-card--mode-play' : ''}`}>
           <div className="word-card__front">
             <div className="word-card__image" style={{ backgroundImage: `url(${imgSrc})` }}></div>
             <div className="word-card__descriptions-wrapper">

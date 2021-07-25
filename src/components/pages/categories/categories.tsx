@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 import AdminPanelCategoryList from '../../admin-panel-category-list/admin-panel-category-list';
 
 import './categories.sass';
-import { TAppState } from '../../../redux/reducers/reducer';
+import { TAppState } from '../../../redux/reducers';
 import { Redirect } from 'react-router-dom';
 
 interface IProps {

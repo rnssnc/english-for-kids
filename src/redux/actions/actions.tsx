@@ -4,7 +4,7 @@ import EnglishForKidsService, {
   TCategory,
 } from '../../services/english-for-kids-service';
 import { AppDispatch } from '../../store';
-import { APP_MODES, GAME_MODES } from '../reducers/reducer';
+import { APP_MODES, GAME_MODES } from '../reducers';
 
 export enum ACTIONS {
   APP_SET_MODE = 'APP_MODE_SWITCH',

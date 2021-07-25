@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TAppState } from '../../../redux/reducers/reducer';
+import { TAppState } from '../../../redux/reducers';
 import { TCategory } from '../../../services/english-for-kids-service';
 import AdminPanelWordList from '../../admin-panel-word-list/admin-panel-word-list';
 import { selectCategory } from '../../../redux/actions/actions';

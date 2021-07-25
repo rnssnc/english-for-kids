@@ -8,7 +8,7 @@ import { AppDispatch } from '../../../store';
 import EnglishForKidsService from '../../../services/english-for-kids-service';
 import { bindActionCreators } from 'redux';
 import Spinner from '../../spinner/spinner';
-import { TAppState } from '../../../redux/reducers/reducer';
+import { TAppState } from '../../../redux/reducers';
 
 interface IProps {
   fetchCategories: (page: number) => void;

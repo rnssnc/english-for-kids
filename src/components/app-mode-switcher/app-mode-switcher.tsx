@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { APP_MODES, TAppState } from '../../redux/reducers/reducer';
+import { APP_MODES, TAppState } from '../../redux/reducers';
 import { setAppMode } from '../../redux/actions/actions';
 
 import './app-mode-switcher.sass';

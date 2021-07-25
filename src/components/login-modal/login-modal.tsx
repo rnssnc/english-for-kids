@@ -1,6 +1,6 @@
 import React, { FormEvent } from 'react';
 import { connect } from 'react-redux';
-import { TAppState } from '../../redux/reducers/reducer';
+import { TAppState } from '../../redux/reducers';
 import { setLoginModalShown, login } from '../../redux/actions/actions';
 
 import './login-modal.sass';
