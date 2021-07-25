@@ -41,7 +41,6 @@
 
 .app-navigation__login-modal-show-button
   cursor: pointer
-  background-color: var(--text-color-primary-light)
   color: var(--text-color-primary)
   border: none
   min-width: 90px
@@ -49,6 +48,8 @@
   border-radius: 5px
   font-weight: bold
   transition: all 0.3s ease
+  margin-top: 30px
+  padding: 5px 15px;
   &:hover
     background-color: var(--gradient-color-primary)
 
@@ -62,11 +63,13 @@
 
 .app-navigation-list__item
   position: relative
+
 .app-navigation-list__link
   display: inline-block
   padding-top: 10px
   padding-bottom: 10px
   text-decoration: none
+  text-transform: capitalize
   color: var(--nav-link-color-primary)
   &::after
     content: ''
