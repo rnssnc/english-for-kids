@@ -102,7 +102,7 @@ class GamePage extends React.Component<IProps, IState> {
     const isModeGame = gameMode === GAME_MODES.game;
     const isGameModeFinish = gameMode === GAME_MODES.finish;
 
-    const spinner = loading ? <Spinner /> : null;
+    const spinner = loading ? <Spinner /> : emptyMessage;
 
     const content = (
       <React.Fragment>
@@ -120,7 +120,6 @@ class GamePage extends React.Component<IProps, IState> {
     return (
       <section className="section">
         {content}
-        {emptyMessage}
         {spinner}
       </section>
     );
